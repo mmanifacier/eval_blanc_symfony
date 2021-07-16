@@ -1,0 +1,48 @@
+<img src="{{ asset('images/fond-forum.jpg') }}" class="w-100">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="{{ path('default') }}">Forum</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {% set CurrentRoute = app.request.get('_route') %}
+
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item {% if CurrentRoute starts with 'default' %} active {% endif %}">
+                    <a class="nav-link" href="{{ path('default') }}">Home</a>
+                </li>
+
+                {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
+                <li class="nav-item{% if CurrentRoute starts with 'admin' %} active {% endif %}">
+                    <a class="nav-link" aria-current="page" href="{{ path('admin_index') }}">Admin Access</a>
+                </li>
+                {% elseif app.user %}
+                <li class="nav-item{% if CurrentRoute starts with 'user' %} active {% endif %}">
+                    <a class="nav-link" aria-current="page" href="{{ path('user_index', {'id': app.user.id}) }}">User Access</a>
+                </li>
+                {% endif %}
+
+                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-secondary" href="{{ path('app_logout') }}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-secondary" href="{{ path('app_login') }}">Login</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            {% if app.user %}
+            <span class="navbar-text">
+                Hello {{ app.user.firstname }} {{ app.user.lastname }}
+            </span>
+            {% endif %}
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% if article.image %}
+        <img class="w-50" src="{{ asset('images/' ~ article.image) }}">
+        {% endif %}
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.content }}</p>
+        <h6>{{ article.author.firstname }} {{ article.author.lastname }}</h6>
+        <a class="btn btn-primary w-25" href="{{ path('default') }}">{{ 'Back to news' | trans }}</a> 
+    </div>
+{% endblock %}
